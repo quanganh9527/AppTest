@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: ["master"]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  android-build:
+    name: Android Dev Build
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Actions
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm install
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - run: |
+          echo "get current path ${{ github.workspace }}"
+          echo "get current path 2 ${GITHUB_WORKSPACE}"
