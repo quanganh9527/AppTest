@@ -35,8 +35,6 @@ jobs:
       - name: "Create env file"
         run: |
           touch .env
-      - name: Log env file to gradle.properties
-        run: cat android/gradle.properties
       - name: Bump version
         uses: chkfung/android-version-actions@v1.2.2
         with:
