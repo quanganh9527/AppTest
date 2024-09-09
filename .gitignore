@@ -1,49 +1,11 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
+# OSX
+#
 .DS_Store
-Thumbs.db
 
-# React Native
-
-## Xcode
-
-**/ios/**/build/
-**/ios/**/*.pbxuser
+# Xcode
+#
+build/
+*.pbxuser
 !default.pbxuser
 *.mode1v3
 !default.mode1v3
@@ -58,49 +20,48 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-# react-native-config codegen
-ios/tmp.xcconfig
+ios/.xcode.env.local
 
-## Android
-
-**/android/**/build/
-**/android/**/.gradle
-**/android/**/local.properties
-**/android/**/*.iml
-**/android/gradle.properties
-**/android/**/private_key.pepk
-## BUCK
-
-buck-out/
-\.buckd/
+# Android/IntelliJ
+#
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
 *.keystore
 !debug.keystore
+*.jks
+keystore.properties
 
-## fastlane
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
 # screenshots whenever they are needed.
 # For more information about the recommended setup visit:
 # https://docs.fastlane.tools/best-practices/source-control/
-#
-*/fastlane/report.xml
-*/fastlane/Preview.html
-*/fastlane/screenshots
 
-## Bundle artifact
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Bundle artifact
 *.jsbundle
 
-## CocoaPods
-**/ios/Pods/
-/
+# Ruby / CocoaPods
+/ios/Pods/
+/vendor/bundle/
 
-## Nested node_modules
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
 
-node_modules/
-## Nested node_modules
-
-node_modules/
-/apps/generic-chat-app
-## Nested node_modules
-
-node_modules/
+.env
+.java-version
