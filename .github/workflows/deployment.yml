@@ -12,7 +12,7 @@ jobs:
       - name: Checkout Actions
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Fetch 5 commits Info
         run: git log -5 --oneline > gitlog.txt
@@ -37,15 +37,6 @@ jobs:
       - name: "Create env file"
         run: |
           touch .env
-          echo SUPABASE_URL=${{secrets.SUPABASE_URL_DEV}} >> .env
-          echo SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY_DEV }} >> .env
-          echo SECRET_MAPBOX_ACCESS_TOKEN=${{ secrets.SECRET_MAPBOX_ACCESS_TOKEN_DEV }} >> .env
-          echo PUBLIC_MAPBOX_ACCESS_TOKEN=${{ secrets.PUBLIC_MAPBOX_ACCESS_TOKEN_DEV }} >> .env
-          echo FLAG_WRITE_DRONE_LOG=${{ secrets.FLAG_WRITE_DRONE_LOG }} >> .env
-      - name: Add env file to gradle.properties
-        run: |
-          echo \  >> android/gradle.properties
-          echo SECRET_MAPBOX_ACCESS_TOKEN=${{ secrets.SECRET_MAPBOX_ACCESS_TOKEN_DEV }}  >> android/gradle.properties
       - name: Log env file to gradle.properties
         run: cat android/gradle.properties
       - name: Bump version
