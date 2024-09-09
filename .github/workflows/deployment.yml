@@ -4,7 +4,6 @@ on:
   push:
     branches: ["master"]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   android-build:
     name: Android Dev Build
@@ -13,22 +12,50 @@ jobs:
       - name: Checkout Actions
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: dev
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch 5 commits Info
+        run: git log -5 --oneline > gitlog.txt
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+      - name: Set version name variable
+        id: set_version
+        run: |
+          versionNumber=$(( ${{ github.run_number }} - 67 ))
+          echo "versionName=0.5.${versionNumber}" >> $GITHUB_OUTPUT
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - run: npm install
+          node-version-file: package.json
+      - name: install unzip
+        run: sudo apt install unzip
+      - run: npm install --force
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-      - run: |
-          echo "get current path ${{ github.workspace }}"
-          echo "get current path 2 ${GITHUB_WORKSPACE}"
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo SUPABASE_URL=${{secrets.SUPABASE_URL_DEV}} >> .env
+          echo SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY_DEV }} >> .env
+          echo SECRET_MAPBOX_ACCESS_TOKEN=${{ secrets.SECRET_MAPBOX_ACCESS_TOKEN_DEV }} >> .env
+          echo PUBLIC_MAPBOX_ACCESS_TOKEN=${{ secrets.PUBLIC_MAPBOX_ACCESS_TOKEN_DEV }} >> .env
+          echo FLAG_WRITE_DRONE_LOG=${{ secrets.FLAG_WRITE_DRONE_LOG }} >> .env
+      - name: Add env file to gradle.properties
+        run: |
+          echo \  >> android/gradle.properties
+          echo SECRET_MAPBOX_ACCESS_TOKEN=${{ secrets.SECRET_MAPBOX_ACCESS_TOKEN_DEV }}  >> android/gradle.properties
+      - name: Log env file to gradle.properties
+        run: cat android/gradle.properties
+      - name: Bump version
+        uses: chkfung/android-version-actions@v1.2.2
+        with:
+          gradlePath: android/app/build.gradle
+          versionCode: ${{github.run_number}}
+          versionName: ${{ steps.set_version.outputs.versionName }}
       - run: |
           cd android
           ./gradlew clean
       - name: Build Android App
-        run: |
-          cd android
-          ./gradlew assembleRelease
+        run: npm run build-release-android
