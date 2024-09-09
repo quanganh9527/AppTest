@@ -10,10 +10,12 @@ jobs:
     name: Android Dev Build
     runs-on: self-hosted
     steps:
-      # - name: clean work space
-      #   run: |
-      #     cd ../../../
-      #     rm -rf _work
+      - name: clean work space
+        run: |
+          cd ../../
+          rm -rf _temp _tool
+          cd ../
+          rm -rf _diag
       - name: Checkout Actions
         uses: actions/checkout@v4
         with:
