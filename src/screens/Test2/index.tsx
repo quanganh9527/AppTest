@@ -10,7 +10,7 @@ const Test2 = () => {
 
   return (
     <View style={[styles.container, { paddingTop: insetsDevice.top }]}>
-      {/* <MapboxGL.MapView style={styles.map} /> */}2
+      {/* <MapboxGL.MapView style={styles.map} /> */}22
     </View>
   );
 };
